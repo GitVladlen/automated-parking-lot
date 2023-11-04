@@ -1,6 +1,9 @@
-enum class VehicleType
+namespace APL
 {
-	Car,
-	Motorcycle,
-	Bus
-};
+	enum class VehicleType
+	{
+		Car,
+		Motorcycle,
+		Bus
+	};
+}

@@ -1,5 +1,5 @@
-#include "ParkingLot.h"
-#include "Utils.h"
+#include <APL/ParkingLot.h>
+#include <APL/Utils.h>
 
 namespace APL
 {
@@ -16,33 +16,33 @@ namespace APL
 		// TODO: add exceptions
 		if (_vehicle->getVehicleType() == VehicleType::Car && m_carCapacity > 0)
 		{
-			m_parkedVehicles.push_back(_vehicle);
 			m_carCapacity--;
+
+			m_parkedVehicles.push_back(_vehicle);
 			Utils::UniqueIDGenerator& uniqueIdGenerator = Utils::UniqueIDGenerator::getInstance();
 			int ticketID = uniqueIdGenerator.generateUniqueID();
-			_vehicle->updateParkingTimestamp();
 			m_ticketToVehicle[ticketID] = _vehicle;
 
 			return ticketID;
 		}
 		else if (_vehicle->getVehicleType() == VehicleType::Motorcycle && m_motorcycleCapacity > 0)
 		{
-			m_parkedVehicles.push_back(_vehicle);
 			m_motorcycleCapacity--;
+
+			m_parkedVehicles.push_back(_vehicle);
 			Utils::UniqueIDGenerator& uniqueIdGenerator = Utils::UniqueIDGenerator::getInstance();
 			int ticketID = uniqueIdGenerator.generateUniqueID();
-			_vehicle->updateParkingTimestamp();
 			m_ticketToVehicle[ticketID] = _vehicle;
 
 			return ticketID;
 		}
 		else if (_vehicle->getVehicleType() == VehicleType::Bus && m_busCapacity > 0)
 		{
-			m_parkedVehicles.push_back(_vehicle);
 			m_busCapacity--;
+
+			m_parkedVehicles.push_back(_vehicle);
 			Utils::UniqueIDGenerator& uniqueIdGenerator = Utils::UniqueIDGenerator::getInstance();
 			int ticketID = uniqueIdGenerator.generateUniqueID();
-			_vehicle->updateParkingTimestamp();
 			m_ticketToVehicle[ticketID] = _vehicle;
 
 			return ticketID;
@@ -80,6 +80,7 @@ namespace APL
 			m_ticketToVehicle.erase(_ticketId);
 			return charge;
 		}
+
 		return -1.0; // TODO: exception
 	}
 

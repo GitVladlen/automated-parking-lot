@@ -1,9 +1,9 @@
-#include "Car.h"
+#include <APL/Car.h>
 
 namespace APL
 {
-	Car::Car(const std::string& _licensePlate)
-		: Vehicle(_licensePlate, VehicleType::Car)
+	Car::Car(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
+		: Vehicle(_licensePlate, VehicleType::Car, _parkingTimestamp)
 	{
 	}
 

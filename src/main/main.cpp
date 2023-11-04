@@ -1,9 +1,10 @@
 #include <iostream>
+#include <chrono>
 
-#include "ParkingLot.h"
-#include "Car.h"
-#include "Motorcycle.h"
-#include "Bus.h"
+#include <APL/ParkingLot.h>
+#include <APL/Car.h>
+#include <APL/Motorcycle.h>
+#include <APL/Bus.h>
 
 int main()
 {
@@ -15,11 +16,11 @@ int main()
     APL::ParkingLot parkingLot(10, 5, 2);  // 10 car slots, 5 motorcycle slots, and 2 bus slots
 
     // Vehicle enters the parking lot
-    APL::VehiclePtr car1 = std::make_shared<APL::Car>("ABC123");
+    APL::VehiclePtr car1 = std::make_shared<APL::Car>("ABC123", std::chrono::system_clock::now() - std::chrono::hours(5));
     int ticket1 = parkingLot.parkVehicle(car1);
 
     // Another vehicle enters
-    APL::VehiclePtr motorcycle1 = std::make_shared<APL::Motorcycle>("XYZ456");
+    APL::VehiclePtr motorcycle1 = std::make_shared<APL::Motorcycle>("XYZ456", std::chrono::system_clock::now() - std::chrono::hours(2));
     int ticket2 = parkingLot.parkVehicle(motorcycle1);
 
     std::cout << "Available Car Slots: " << parkingLot.getAvailableCarSlots() << std::endl;

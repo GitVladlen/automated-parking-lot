@@ -1,9 +1,9 @@
-#include "Bus.h"
+#include <APL/Bus.h>
 
 namespace APL
 {
-	Bus::Bus(const std::string& _licensePlate)
-		: Vehicle(_licensePlate, VehicleType::Bus)
+	Bus::Bus(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
+		: Vehicle(_licensePlate, VehicleType::Bus, _parkingTimestamp)
 	{
 	}
 

@@ -1,9 +1,9 @@
-#include "Motorcycle.h"
+#include <APL/Motorcycle.h>
 
 namespace APL
 {
-	Motorcycle::Motorcycle(const std::string& _licensePlate)
-		: Vehicle(_licensePlate, VehicleType::Motorcycle)
+	Motorcycle::Motorcycle(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
+		: Vehicle(_licensePlate, VehicleType::Motorcycle, _parkingTimestamp)
 	{
 	}
 

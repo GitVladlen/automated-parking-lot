@@ -1,11 +1,11 @@
-#include "Vehicle.h"
+#include <APL/Vehicle.h>
 
 namespace APL
 {
-	Vehicle::Vehicle(const std::string& _licensePlate, VehicleType _vehicleType)
+	Vehicle::Vehicle(const std::string& _licensePlate, VehicleType _vehicleType, const Timestamp& _parkingTimestamp)
 		: m_licensePlate(_licensePlate)
 		, m_vehicleType(_vehicleType)
-		, m_parkingTimestamp()
+		, m_parkingTimestamp(_parkingTimestamp)
 	{
 	}
 
@@ -23,9 +23,9 @@ namespace APL
 		return m_vehicleType;
 	}
 
-	void Vehicle::updateParkingTimestamp()
+	const Timestamp& Vehicle::getParkingTimestamp() const
 	{
-		m_parkingTimestamp = std::chrono::system_clock::now();
+		return m_parkingTimestamp;
 	}
 
 	int Vehicle::calculateParkingDuration() const

@@ -17,6 +17,8 @@ set(SOURCES
 
 # Create a list of header files
 set(HEADERS
+    ${INCLUDE_DIR}/Constants.h
+    ${INCLUDE_DIR}/Utils.h
     ${INCLUDE_DIR}/Vehicle.h
     ${INCLUDE_DIR}/Car.h
     ${INCLUDE_DIR}/Motorcycle.h

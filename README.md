@@ -1,4 +1,4 @@
-# Automated Parking Lot
+# Automated Parking Lot (APL)
 ## Requirements:
 * CMake https://cmake.org/download/#latest
     * Install CMake with adding to PATH

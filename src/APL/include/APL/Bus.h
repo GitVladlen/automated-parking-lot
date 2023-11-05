@@ -11,4 +11,13 @@ namespace APL
 
 		virtual float calculateCharge() const override;
 	};
+
+	class BusFactory : public VehicleFactory
+	{
+	public:
+		VehiclePtr createVehicle(const std::string& _licensePlate, const Timestamp& _parkingTimestamp) override
+		{
+			return std::make_shared<Bus>(_licensePlate, _parkingTimestamp);
+		}
+	};
 }

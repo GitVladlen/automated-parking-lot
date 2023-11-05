@@ -1,6 +1,7 @@
 #include <APL/ParkingLot.h>
 #include <APL/Exceptions.h>
 #include <APL/Utils.h>
+#include <APL/Logger.h>
 
 namespace APL
 {
@@ -48,6 +49,12 @@ namespace APL
 			Utils::UniqueIDGenerator& uniqueIdGenerator = Utils::UniqueIDGenerator::getInstance();
 			int ticketID = uniqueIdGenerator.generateUniqueID();
 			m_ticketToVehicle[ticketID] = _vehicle;
+
+			LOG_INFO_FMT("Parked a %s %s - ticket %i"
+				, APL::vehicleTypeToString(vehicleType).c_str()
+				, _vehicle->getLicensePlate().c_str()
+				, ticketID);
+
 			return ticketID;
 		}
 
@@ -66,9 +73,16 @@ namespace APL
 		{
 			const VehiclePtr& vehicle = m_ticketToVehicle[_ticketId];
 			float charge = vehicle->calculateCharge();
+			
+			LOG_INFO_FMT("Release a %s %s - ticket %i - charge $%.2f"
+				, APL::vehicleTypeToString(vehicle->getVehicleType()).c_str()
+				, vehicle->getLicensePlate().c_str()
+				, _ticketId, charge);
+
 			++m_vehicleCapacity[vehicle->getVehicleType()];
 			m_parkedVehicles.erase(std::remove(m_parkedVehicles.begin(), m_parkedVehicles.end(), vehicle), m_parkedVehicles.end());
 			m_ticketToVehicle.erase(_ticketId);
+
 			return charge;
 		}
 

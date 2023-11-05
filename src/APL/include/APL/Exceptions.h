@@ -5,7 +5,8 @@
 
 namespace APL
 {
-	class BaseMessageException : public std::exception {
+	class BaseMessageException : public std::exception 
+	{
 	public:
 		BaseMessageException(const std::string& _message)
 			: m_message(_message)
@@ -30,7 +31,7 @@ namespace APL
 		}
 	};
 
-	class InvalidVehicleTypeException : BaseMessageException
+	class InvalidVehicleTypeException : public BaseMessageException
 	{
 	public:
 		InvalidVehicleTypeException(VehicleType _vehicleType)
@@ -39,11 +40,20 @@ namespace APL
 		}
 	};
 
+	class OutOfVehicleCapacityException : public BaseMessageException
+	{
+	public:
+		OutOfVehicleCapacityException(VehicleType _vehicleType)
+			: BaseMessageException("Out of capacity for vehicle type: " + vehicleTypeToString(_vehicleType))
+		{
+		}
+	};
+
 	class InvalidTicketIDException : public BaseMessageException
 	{
 	public:
 		InvalidTicketIDException(int _ticket)
-			: BaseMessageException("Invalid ticket ID: " + _ticket)
+			: BaseMessageException("Invalid ticket ID: " + std::to_string(_ticket))
 		{
 		}
 	};

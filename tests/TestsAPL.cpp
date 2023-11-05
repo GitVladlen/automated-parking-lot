@@ -43,7 +43,7 @@ TEST(ParkingLotTest, ParkVehicle)
 	EXPECT_NO_THROW(parkingLot.parkVehicle(car1));
 
 	// Test parking when no slots are available
-	EXPECT_THROW(parkingLot.parkVehicle(car2), APL::InvalidVehicleTypeException);
+	EXPECT_THROW(parkingLot.parkVehicle(car2), APL::OutOfVehicleCapacityException);
 }
 
 TEST(ParkingLotTest, ReleaseVehicle)

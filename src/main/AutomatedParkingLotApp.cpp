@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <string>
 
 #include "AutomatedParkingLotApp.h"
 
@@ -11,66 +13,160 @@ namespace App
 {
 	AutomatedParkingLotApp::AutomatedParkingLotApp()
 	{
-		m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 50);
-		m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 20);
-		m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 10);
+        // Set vehicle factories by its type
+		m_vehicleFactories[APL::VehicleType::Car] = std::make_shared<APL::CarFactory>();
+		m_vehicleFactories[APL::VehicleType::Motorcycle] = std::make_shared<APL::MotorcycleFactory>();
+		m_vehicleFactories[APL::VehicleType::Bus] = std::make_shared <APL::BusFactory>();
+
+        // Set the initial capacity for different vehicle types
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 5);
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 2);
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 1);
 	}
 
 	int AutomatedParkingLotApp::run()
 	{
-		LOG_INFO("Automated Parking Lot!");
+        // Create a mapping from input strings to corresponding VehicleType enum values
+        std::unordered_map<std::string, APL::VehicleType> vehicleTypeMap = {
+            {"c", APL::VehicleType::Car},
+            {"car", APL::VehicleType::Car},
+            {"m", APL::VehicleType::Motorcycle},
+            {"motorcycle", APL::VehicleType::Motorcycle},
+            {"b", APL::VehicleType::Bus},
+            {"bus", APL::VehicleType::Bus}
+        };
 
-		// Create a parking lot
-		APL::ParkingLot parkingLot;
+        while (true) {
+            std::cout << "Menu:\n";
+            std::cout << "1. Check available slots for Car\n";
+            std::cout << "2. Check available slots for Motorcycle\n";
+            std::cout << "3. Check available slots for Bus\n";
+            std::cout << "4. Park a Vehicle\n";
+            std::cout << "5. Release a Vehicle\n";
+            std::cout << "6. Exit\n";
+            std::cout << "Enter your choice: ";
 
-		// 10 car slots, 5 motorcycle slots, and 2 bus slots
-		parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 10);
-		parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 5);
-		parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 2);
+            int choice;
+            std::cin >> choice;
 
-		// Create vehicle factories
-		APL::CarFactory carFactory;
-		APL::MotorcycleFactory motorcycleFactory;
-		APL::BusFactory busFactory;
+            switch (choice) {
+            case 1: {
+                // Query available slots for Car
+                try 
+                {
+                    int availableSlots = m_parkingLot.getAvailableSlots(APL::VehicleType::Car);
+                    LOG_INFO_FMT("Available Car slots: %i", availableSlots);
+                }
+                catch (const std::exception& e) 
+                {
+                    LOG_ERROR_FMT("Error: %s", e.what());
+                }
+                break;
+            }
+            case 2: {
+                // Query available slots for Motorcycle
+                try 
+                {
+                    int availableSlots = m_parkingLot.getAvailableSlots(APL::VehicleType::Motorcycle);
+                    LOG_INFO_FMT("Available Motorcycle slots: %i", availableSlots);
+                }
+                catch (const std::exception& e)
+                {
+                    LOG_ERROR_FMT("Error: %s", e.what());
+                }
+                break;
+            }
+            case 3: {
+                // Query available slots for Bus
+                try {
+                    int availableSlots = m_parkingLot.getAvailableSlots(APL::VehicleType::Bus);
+                    LOG_INFO_FMT("Available Bus slots: %i", availableSlots);
+                }
+                catch (const std::exception& e) {
+                    LOG_ERROR_FMT("Error: %s", e.what());
+                }
+                break;
+            }
+            case 4: {
+                // Park a vehicle
+                std::cout << "Enter vehicle type (Car/Motorcycle/Bus or C/M/B): ";
+                std::string vehicleTypeStr;
+                std::cin >> vehicleTypeStr;
 
-		// Vehicle enters the parking lot
-		APL::VehiclePtr car1 = carFactory.createVehicle("ABC123", std::chrono::system_clock::now() - std::chrono::hours(5));
-		int ticket1 = parkingLot.parkVehicle(car1);
+                std::transform(vehicleTypeStr.begin(), vehicleTypeStr.end(), vehicleTypeStr.begin(),
+                    [](unsigned char c) { return std::tolower(c); });
 
-		// Another vehicle enters
-		APL::VehiclePtr motorcycle1 = motorcycleFactory.createVehicle("CBA456", std::chrono::system_clock::now() - std::chrono::hours(2));
-		int ticket2 = parkingLot.parkVehicle(motorcycle1);
+                APL::VehicleType vehicleType;
 
-		// Another vehicle enters
-		APL::VehiclePtr bus1 = busFactory.createVehicle("WER768", std::chrono::system_clock::now() - std::chrono::hours(2));
-		int ticket3 = parkingLot.parkVehicle(bus1);
+                // Check if the input is in the map
+                if (vehicleTypeMap.find(vehicleTypeStr) != vehicleTypeMap.end()) {
+                    vehicleType = vehicleTypeMap[vehicleTypeStr];
+                }
+                else {
+                    LOG_ERROR("Invalid vehicle type. Please enter C, Car, M, Motorcycle, B, or Bus.");
+                    continue;
+                }
 
-		LOG_INFO_FMT("Available Car Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Car));
-		LOG_INFO_FMT("Available Motorcycle Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Motorcycle));
-		LOG_INFO_FMT("Available Bus Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Bus));
+                std::cout << "Vehicle type: " << APL::vehicleTypeToString(vehicleType) << std::endl;
 
-		// Simulate some time passing
-		// ...
+                std::cout << "Enter license number: ";
+                std::string licenseNumber;
+                std::cin >> licenseNumber;
 
-		// Vehicle exits
-		double car1Charge = parkingLot.releaseVehicle(ticket1);
+                // Record the entering timestamp
+                auto enteringTime = std::chrono::system_clock::now();
 
-		// Another vehicle exits
-		double motorcycle1Charge = parkingLot.releaseVehicle(ticket2);
-
-		// Another vehicle exits
-		double bus1Charge = parkingLot.releaseVehicle(ticket3);
-
-		// Print charges and logs
-		LOG_INFO_FMT("Car1 Charge: $%.2f", car1Charge);
-		LOG_INFO_FMT("Motorcycle1 Charge: $%.2f", motorcycle1Charge);
-		LOG_INFO_FMT("Bus1 Charge: $%.2f", bus1Charge);
-
-		// Query available slots
-		LOG_INFO_FMT("Available Car Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Car));
-		LOG_INFO_FMT("Available Motorcycle Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Motorcycle));
-		LOG_INFO_FMT("Available Bus Slots: %i", parkingLot.getAvailableSlots(APL::VehicleType::Bus));
+                try {
+                    APL::VehiclePtr newVehicle = createVehicle(vehicleType, licenseNumber, enteringTime);
+                    int ticketID = m_parkingLot.parkVehicle(newVehicle);
+                    LOG_INFO_FMT("Vehicle parked with ticket ID: %i", ticketID);
+                }
+                catch (const std::exception& e) {
+                    LOG_ERROR_FMT("Error: %s", e.what());
+                }
+                break;
+            }
+            case 5: {
+                // Release a vehicle
+                std::cout << "Enter ticket ID for the vehicle to release: ";
+                int ticketToRelease;
+                std::cin >> ticketToRelease;
+                try {
+                    float charge = m_parkingLot.releaseVehicle(ticketToRelease);
+                    LOG_INFO_FMT("Vehicle released with charge: $%.2f", charge);
+                }
+                catch (const std::exception& e) {
+                    LOG_ERROR_FMT("Error: %s", e.what());
+                }
+                break;
+            }
+            case 6: {
+                // Exit the program
+                std::cout << "Exiting program.\n";
+                return 0;
+            }
+            default: {
+                std::cout << "Invalid choice. Please select a valid option.\n";
+                break;
+            }
+            }
+        }
 
 		return 0;
+	}
+
+	APL::VehiclePtr AutomatedParkingLotApp::createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, const APL::Timestamp& _parkingTimestamp)
+	{
+		// Check if the requested vehicle type exists in the factories map.
+		auto factoryIt = m_vehicleFactories.find(_vehicleType);
+		if (factoryIt == m_vehicleFactories.end()) {
+			// Handle the case where the vehicle type is not found.
+			throw std::runtime_error("No factory found for vehicle type " + APL::vehicleTypeToString(_vehicleType));
+		}
+
+		// Create the vehicle using the corresponding factory.
+		APL::VehiclePtr vehicle = factoryIt->second->createVehicle(_licensePlate, _parkingTimestamp);
+
+		return vehicle;
 	}
 }

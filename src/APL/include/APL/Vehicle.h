@@ -37,4 +37,6 @@ namespace APL
 	public:
 		virtual VehiclePtr createVehicle(const std::string& _licensePlate, const Timestamp& _parkingTimestamp) = 0;
 	};
+
+	typedef std::shared_ptr<VehicleFactory> VehicleFactoryPtr;
 }

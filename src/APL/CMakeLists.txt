@@ -15,6 +15,7 @@ set(SOURCES
 set(HEADERS
     ${INCLUDE_DIR}/Constants.h
     ${INCLUDE_DIR}/Utils.h
+    ${INCLUDE_DIR}/Exceptions.h
     ${INCLUDE_DIR}/Vehicle.h
     ${INCLUDE_DIR}/Car.h
     ${INCLUDE_DIR}/Motorcycle.h

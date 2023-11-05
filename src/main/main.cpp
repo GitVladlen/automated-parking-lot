@@ -13,7 +13,12 @@ int main()
 	// TODO: Unit tests
 
 	// Create a parking lot
-	APL::ParkingLot parkingLot(10, 5, 2);  // 10 car slots, 5 motorcycle slots, and 2 bus slots
+	APL::ParkingLot parkingLot;  
+
+	// 10 car slots, 5 motorcycle slots, and 2 bus slots
+	parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 10);
+	parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 5);
+	parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 2);
 
 	// Vehicle enters the parking lot
 	APL::VehiclePtr car1 = std::make_shared<APL::Car>("ABC123", std::chrono::system_clock::now() - std::chrono::hours(5));
@@ -23,9 +28,9 @@ int main()
 	APL::VehiclePtr motorcycle1 = std::make_shared<APL::Motorcycle>("XYZ456", std::chrono::system_clock::now() - std::chrono::hours(2));
 	int ticket2 = parkingLot.parkVehicle(motorcycle1);
 
-	std::cout << "Available Car Slots: " << parkingLot.getAvailableCarSlots() << std::endl;
-	std::cout << "Available Motorcycle Slots: " << parkingLot.getAvailableMotorcycleSlots() << std::endl;
-	std::cout << "Available Bus Slots: " << parkingLot.getAvailableBusSlots() << std::endl;
+	std::cout << "Available Car Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Car) << std::endl;
+	std::cout << "Available Motorcycle Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Motorcycle) << std::endl;
+	std::cout << "Available Bus Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Bus) << std::endl;
 
 	// Simulate some time passing
 	// ...
@@ -41,9 +46,9 @@ int main()
 	std::cout << "Motorcycle1 Charge: $" << motorcycle1Charge << std::endl;
 
 	// Query available slots
-	std::cout << "Available Car Slots: " << parkingLot.getAvailableCarSlots() << std::endl;
-	std::cout << "Available Motorcycle Slots: " << parkingLot.getAvailableMotorcycleSlots() << std::endl;
-	std::cout << "Available Bus Slots: " << parkingLot.getAvailableBusSlots() << std::endl;
+	std::cout << "Available Car Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Car) << std::endl;
+	std::cout << "Available Motorcycle Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Motorcycle) << std::endl;
+	std::cout << "Available Bus Slots: " << parkingLot.getAvailableSlots(APL::VehicleType::Bus) << std::endl;
 
 	return 0;
 }

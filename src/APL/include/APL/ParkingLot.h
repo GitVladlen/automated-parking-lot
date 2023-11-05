@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <mutex>
 
 #include <APL/Vehicle.h>
 
@@ -10,20 +11,22 @@ namespace APL
 	class ParkingLot
 	{
 	public:
-		ParkingLot(int _carCapacity, int _motorcycleCapacity, int _busCapacity);
+		ParkingLot();
+
+		void setVehicleTypeCapacity(VehicleType _vehicleType, int _capacity);
+		int getAvailableSlots(VehicleType _vehicleType) const;
 
 		int parkVehicle(const VehiclePtr& _vehicle);
 		float releaseVehicle(int _ticketId);
-
-		int getAvailableCarSlots() const;
-		int getAvailableMotorcycleSlots() const;
-		int getAvailableBusSlots() const;
+		float calculateCharge(int _ticketId);
 
 	private:
-		int m_carCapacity;
-		int m_motorcycleCapacity;
-		int m_busCapacity;
 		std::vector<VehiclePtr> m_parkedVehicles;
+		std::unordered_map<VehicleType, int> m_vehicleCapacity;
 		std::unordered_map<int, VehiclePtr> m_ticketToVehicle;
+
+		mutable std::mutex vehicleAccessMutex;
+		mutable std::mutex capacityAccessMutex;
+		mutable std::mutex ticketAccessMutex;
 	};
 }

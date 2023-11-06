@@ -10,9 +10,10 @@ Before you begin, make sure you have the following installed:
 - Visual Studio 2019 with C++ Desktop Development Pack
 
 ### Build and Run
+
 Follow these steps to build and run the Automated Parking Lot (APL) application:
 
-1. Run the `generate_project.bat` script to generate a Visual Studio solution in the 'build' folder. This script will create the necessary project files.
+1. Run the `generate_project.bat` script. This script will generate a Visual Studio solution in the 'build' folder, and it also triggers the fetching of the Google Test library, which is used for running unit tests.
 
 2. Open the `build/AutomatedParkingLot.sln` solution in Visual Studio 2019.
 

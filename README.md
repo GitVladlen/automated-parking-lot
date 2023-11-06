@@ -2,6 +2,36 @@
 
 The Automated Parking Lot (APL) application, named `AutomatedParkingLotApp`, is designed to manage a parking lot with support for various vehicle types. It allows you to check available parking slots, park vehicles, and release vehicles with associated charges. The application provides a command-line interface for user interactions.
 
+## Assumptions
+
+The provided application is a simplified representation of a parking lot management system and may not cover all real-life parking lot complexities. The key assumptions include:
+
+- **Charge Calculation:** The application uses a simple mechanism to calculate charges based on parking duration for different vehicle types. In a real-world scenario, it may involve more complex pricing models, different tariffs for peak hours, or special event pricing.
+
+- **Parking Lot Capacity:** The parking lot has a limited capacity for each vehicle type, which is set at initialization. Real-world parking lots might have dynamic capacity management and tracking based on current occupancy.
+
+- **Error Handling:** The application demonstrates the use of exceptions to handle errors, such as exceeding vehicle capacity or invalid inputs.
+
+## High-Level Design Choices
+
+The application follows several high-level design choices to structure and manage the parking lot effectively. These choices include:
+
+- **Vehicle Hierarchy:** The application uses a hierarchy of vehicle classes (Car, Motorcycle, Bus) derived from a base Vehicle class. This hierarchy allows for extensibility, making it easier to add new vehicle types with specific behaviors in the future.
+
+- **Factory Pattern:** To create vehicles, the application uses a VehicleFactory interface. This design choice allows for the creation of different vehicle types without exposing the details of how each type is constructed.
+
+- **ParkingLot Class:** The ParkingLot class manages the parking lot's state, including parked vehicles, vehicle type capacities, and ticket-to-vehicle mapping. It uses mutexes for thread safety.
+
+- **Logger:** The application employs a Logger class to log various events, such as parking, releasing vehicles, and errors. It creates a `data.log` file and flushes it after application closure. This design choice provides a way to record activities and errors for monitoring and debugging.
+
+- **AutomatedParkingLotApp:** This class acts as the application's main entry point and handles user interaction through the console. It allows users to check available parking slots, park vehicles, release vehicles, and exit the application.
+
+- **Exception Handling:** The application uses custom exceptions like NegativeCapacityException and InvalidVehicleTypeException to handle errors gracefully. This approach makes it easier to identify and address issues.
+
+- **CMake and Visual Studio:** The build system is set up with CMake, and the application is designed to work with Visual Studio 2019 for ease of development.
+
+- **Google Test Integration:** The application includes a TestsAPL project that uses Google Test for unit testing. This ensures the reliability and correctness of the code.
+
 ## Getting Started
 
 ### Prerequisites

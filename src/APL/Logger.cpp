@@ -1,13 +1,14 @@
-#include <APL/Logger.h>
-
 #include <iostream>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
 #include <cstdarg>
 
+#include <APL/Logger.h>
+
 namespace Logs
 {
+	// Constructor for the FileSink with an optional buffer size
 	FileSink::FileSink(const std::string& _fileName, std::size_t _bufferSize)
 		: m_buffer(_bufferSize), m_output(_fileName), m_offset(0u)
 	{
@@ -17,6 +18,7 @@ namespace Logs
 		}
 	}
 
+	// Write a log message to the file sink
 	void FileSink::write(const std::string& _data)
 	{
 		const std::size_t dataSize = _data.size();
@@ -30,11 +32,13 @@ namespace Logs
 		m_offset += dataSize;
 	}
 
+	// Destructor that ensures the buffer is flushed
 	FileSink::~FileSink()
 	{
 		flush();
 	}
 
+	// Flush the buffer to the output file
 	void FileSink::flush()
 	{
 		if (m_offset != 0u)
@@ -44,12 +48,14 @@ namespace Logs
 		}
 	}
 
+	// Constructor for the Logger with an output file and an option to log to the console
 	Logger::Logger(const std::string& _fileName, bool _logToConsole)
 		: m_sink(_fileName), m_logToConsole(_logToConsole)
 	{
 
 	}
 
+	// Log a message with a specified log level
 	void Logger::log(Level _level, const std::string& _message)
 	{
 		const std::string formattedMessage = "[" + getTimeStamp() + "] [" + LevelStr[_level] + "]: " + _message + "\n";
@@ -62,6 +68,7 @@ namespace Logs
 		}
 	}
 
+	// Log a formatted message with a specified log level and variadic arguments
 	void Logger::log(Level _level, const char* format, ...)
 	{
 		va_list length_args;
@@ -87,6 +94,7 @@ namespace Logs
 		}
 	}
 
+	// Generate a timestamp for log entries
 	std::string Logger::getTimeStamp()
 	{
 		const std::time_t now = std::time(nullptr);

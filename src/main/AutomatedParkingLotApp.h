@@ -1,7 +1,8 @@
 #pragma once
 
-#include <APL/ParkingLot.h>
 #include <unordered_map>
+
+#include <APL/ParkingLot.h>
 
 namespace App
 {
@@ -10,13 +11,15 @@ namespace App
 	public:
 		AutomatedParkingLotApp();
 
+		// Run the automated parking lot application
 		int run();
 
 	private:
+		// Create a vehicle of the specified type
 		APL::VehiclePtr createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, const APL::Timestamp& _parkingTimestamp);
 
 	private:
-		APL::ParkingLot m_parkingLot;
-		std::unordered_map<APL::VehicleType, APL::VehicleFactoryPtr> m_vehicleFactories;
+		APL::ParkingLot m_parkingLot; // The parking lot where vehicles are managed.
+		std::unordered_map<APL::VehicleType, APL::VehicleFactoryPtr> m_vehicleFactories; // Factories for creating vehicles of different types.
 	};
 }

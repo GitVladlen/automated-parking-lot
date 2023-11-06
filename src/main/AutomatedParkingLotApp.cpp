@@ -2,12 +2,12 @@
 #include <algorithm>
 #include <string>
 
-#include "AutomatedParkingLotApp.h"
-
 #include <APL/Logger.h>
 #include <APL/Car.h>
 #include <APL/Motorcycle.h>
 #include <APL/Bus.h>
+
+#include "AutomatedParkingLotApp.h"
 
 namespace App
 {

@@ -7,6 +7,7 @@ namespace APL
 	{
 	}
 
+	// Calculate the parking charge for a Car based on the parking duration
 	float Car::calculateCharge() const
 	{
 		int parkingDuration = calculateParkingDuration();

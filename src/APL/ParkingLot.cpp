@@ -1,6 +1,6 @@
 #include <APL/ParkingLot.h>
 #include <APL/Exceptions.h>
-#include <APL/Utils.h>
+#include <APL/UniqueIDGenerator.h>
 #include <APL/Logger.h>
 
 namespace APL
@@ -9,6 +9,7 @@ namespace APL
 	{
 	}
 
+	// Set the capacity for a specific vehicle type
 	void ParkingLot::setVehicleTypeCapacity(VehicleType _vehicleType, int _capacity)
 	{
 		if (_capacity < 0)
@@ -20,6 +21,7 @@ namespace APL
 		m_vehicleCapacity[_vehicleType] = _capacity;
 	}
 
+	// Get the number of available parking slots for a specific vehicle type
 	int ParkingLot::getAvailableSlots(VehicleType _vehicleType) const
 	{
 		std::lock_guard<std::mutex> lock(capacityAccessMutex);
@@ -32,6 +34,7 @@ namespace APL
 		throw InvalidVehicleTypeException(_vehicleType);
 	}
 
+	// Park a vehicle and generate a ticket
 	int ParkingLot::parkVehicle(const VehiclePtr& _vehicle)
 	{
 		VehicleType vehicleType = _vehicle->getVehicleType();
@@ -54,7 +57,7 @@ namespace APL
 
 		--m_vehicleCapacity[vehicleType];
 		m_parkedVehicles.push_back(_vehicle);
-		Utils::UniqueIDGenerator& uniqueIdGenerator = Utils::UniqueIDGenerator::getInstance();
+		UniqueIDGenerator& uniqueIdGenerator = UniqueIDGenerator::getInstance();
 		int ticketID = uniqueIdGenerator.generateUniqueID();
 		m_ticketToVehicle[ticketID] = _vehicle;
 
@@ -66,6 +69,7 @@ namespace APL
 		return ticketID;
 	}
 
+	// Release a parked vehicle and calculate the charge
 	float ParkingLot::releaseVehicle(int _ticketId)
 	{
 		std::lock(vehicleAccessMutex, capacityAccessMutex, ticketAccessMutex);
@@ -94,6 +98,7 @@ namespace APL
 		return charge;
 	}
 
+	// Calculate the charge for a parked vehicle based on the ticket ID
 	float ParkingLot::calculateCharge(int _ticketId)
 	{
 		std::lock_guard<std::mutex> vehicleLock(ticketAccessMutex);

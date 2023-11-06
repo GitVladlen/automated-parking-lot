@@ -13,11 +13,19 @@ namespace APL
 	public:
 		ParkingLot();
 
+		// Set the capacity for a specific vehicle type
 		void setVehicleTypeCapacity(VehicleType _vehicleType, int _capacity);
+
+		// Get the number of available parking slots for a specific vehicle type
 		int getAvailableSlots(VehicleType _vehicleType) const;
 
+		// Park a vehicle and generate a ticket
 		int parkVehicle(const VehiclePtr& _vehicle);
+
+		// Release a parked vehicle and calculate the charge
 		float releaseVehicle(int _ticketId);
+
+		// Calculate the charge for a parked vehicle based on the ticket ID
 		float calculateCharge(int _ticketId);
 
 	private:

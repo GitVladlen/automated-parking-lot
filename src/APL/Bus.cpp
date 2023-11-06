@@ -7,6 +7,7 @@ namespace APL
 	{
 	}
 
+	// Calculate the parking charge for a Bus based on the parking duration
 	float Bus::calculateCharge() const
 	{
 		int parkingDuration = calculateParkingDuration();

@@ -23,6 +23,10 @@ Follow these steps to build and run the Automated Parking Lot (APL) application:
 ### Troubleshooting
 - If you encounter any build errors or issues, check the build logs or refer to the project documentation for troubleshooting instructions.
 
+### APL Core Library
+
+The core classes of the Automated Parking Lot (APL) application are organized into a separate library named `APL`. This library includes essential classes for managing parking lot and vehicles. It is linked to the `AutomatedParkingLot` project to provide the necessary functionality to the `AutomatedParkingLotApp`.
+
 ### Logger
 
 The APL application uses a logger that creates a 'data.log' file. The logger records information, warnings, and errors during the application's runtime. It fully updates (flushes) the log file when the application is closed. You can review this log file for a history of events and messages related to the application's operations.

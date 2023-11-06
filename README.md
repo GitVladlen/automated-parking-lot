@@ -12,9 +12,9 @@ Before you begin, make sure you have the following installed:
 ### Build and Run
 Follow these steps to build and run the Automated Parking Lot (APL) application:
 
-1. Run the 'generate_project.bat' script to generate a Visual Studio solution in the 'build' folder. This script will create the necessary project files.
+1. Run the `generate_project.bat` script to generate a Visual Studio solution in the 'build' folder. This script will create the necessary project files.
 
-2. Open the 'build/AutomatedParkingLot.sln' solution in Visual Studio 2019.
+2. Open the `build/AutomatedParkingLot.sln` solution in Visual Studio 2019.
 
 3. Build the solution within Visual Studio.
 
@@ -31,11 +31,11 @@ The APL application uses a logger that creates a 'data.log' file. The logger rec
 
 The Automated Parking Lot (APL) project includes unit tests using Google Test. You can run these tests to ensure that the application functions as expected. Follow these steps to run the tests:
 
-1. Open the 'TestsAPL' project within the 'AutomatedParkingLot' solution in Visual Studio 2019.
+1. Open the `TestsAPL` project within the `AutomatedParkingLot` solution in Visual Studio 2019.
 
-2. Build the 'TestsAPL' project within Visual Studio.
+2. Build the `TestsAPL` project within Visual Studio.
 
-3. Run the test executable, which is typically named 'TestsAPL.exe.' This executable is generated within the 'build/tests/Debug' folder.
+3. Run the test executable, which is typically named `TestsAPL.exe.` This executable is generated within the `build/tests/Debug` folder.
 
 4. Review the test results in the console or test runner provided by Google Test.
 

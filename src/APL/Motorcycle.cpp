@@ -2,15 +2,15 @@
 
 namespace APL
 {
-	Motorcycle::Motorcycle(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
-		: Vehicle(_licensePlate, VehicleType::Motorcycle, _parkingTimestamp)
+	Motorcycle::Motorcycle(const std::string& _licensePlate, int _parkingDuration)
+		: Vehicle(_licensePlate, VehicleType::Motorcycle, _parkingDuration)
 	{
 	}
 
 	// Calculate the parking charge for a Motorcycle based on the parking duration
 	float Motorcycle::calculateCharge() const
 	{
-		int parkingDuration = calculateParkingDuration();
+		int parkingDuration = getParkingDuration();
 
 		if (parkingDuration <= 1)
 		{

@@ -109,15 +109,19 @@ namespace App
 
                 std::cout << "Vehicle type: " << APL::vehicleTypeToString(vehicleType) << std::endl;
 
-                std::cout << "Enter license number: ";
-                std::string licenseNumber;
-                std::cin >> licenseNumber;
+                std::cout << "Enter license plate: ";
+                std::string licensePlate;
+                std::cin >> licensePlate;
+
+                std::cout << "Enter parking duration (in hours): ";
+                int parkingDuration;
+                std::cin >> parkingDuration;
 
                 // Record the entering timestamp
                 auto enteringTime = std::chrono::system_clock::now();
 
                 try {
-                    APL::VehiclePtr newVehicle = createVehicle(vehicleType, licenseNumber, enteringTime);
+                    APL::VehiclePtr newVehicle = createVehicle(vehicleType, licensePlate, parkingDuration);
                     int ticketID = m_parkingLot.parkVehicle(newVehicle);
                     LOG_INFO_FMT("Vehicle parked with ticket ID: %i", ticketID);
                 }
@@ -155,7 +159,7 @@ namespace App
 		return 0;
 	}
 
-	APL::VehiclePtr AutomatedParkingLotApp::createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, const APL::Timestamp& _parkingTimestamp)
+	APL::VehiclePtr AutomatedParkingLotApp::createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, int _parkingDuration)
 	{
 		// Check if the requested vehicle type exists in the factories map.
 		auto factoryIt = m_vehicleFactories.find(_vehicleType);
@@ -165,7 +169,7 @@ namespace App
 		}
 
 		// Create the vehicle using the corresponding factory.
-		APL::VehiclePtr vehicle = factoryIt->second->createVehicle(_licensePlate, _parkingTimestamp);
+		APL::VehiclePtr vehicle = factoryIt->second->createVehicle(_licensePlate, _parkingDuration);
 
 		return vehicle;
 	}

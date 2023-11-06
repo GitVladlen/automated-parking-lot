@@ -7,8 +7,8 @@ namespace APL
 	class Bus : public Vehicle
 	{
 	public:
-		// Constructor for Bus, taking license plate and parking timestamp
-		Bus(const std::string& _licensePlate, const Timestamp& _parkingTimestamp);
+		// Constructor for Bus, taking license plate and parking duration in hours
+		Bus(const std::string& _licensePlate, int _parkingDuration);
 
 		// Calculate the parking charge for a Bus
 		virtual float calculateCharge() const override;
@@ -17,10 +17,10 @@ namespace APL
 	class BusFactory : public VehicleFactory
 	{
 	public:
-		// Create a Bus instance with the given license plate and parking timestamp
-		VehiclePtr createVehicle(const std::string& _licensePlate, const Timestamp& _parkingTimestamp) override
+		// Create a Bus instance with the given license plate and parking duration in hours
+		VehiclePtr createVehicle(const std::string& _licensePlate, int _parkingDuration) override
 		{
-			return std::make_shared<Bus>(_licensePlate, _parkingTimestamp);
+			return std::make_shared<Bus>(_licensePlate, _parkingDuration);
 		}
 	};
 }

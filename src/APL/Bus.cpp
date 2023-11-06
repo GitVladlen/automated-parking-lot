@@ -2,15 +2,15 @@
 
 namespace APL
 {
-	Bus::Bus(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
-		: Vehicle(_licensePlate, VehicleType::Bus, _parkingTimestamp)
+	Bus::Bus(const std::string& _licensePlate, int _parkingDuration)
+		: Vehicle(_licensePlate, VehicleType::Bus, _parkingDuration)
 	{
 	}
 
 	// Calculate the parking charge for a Bus based on the parking duration
 	float Bus::calculateCharge() const
 	{
-		int parkingDuration = calculateParkingDuration();
+		int parkingDuration = getParkingDuration();
 
 		if (parkingDuration <= 1)
 		{

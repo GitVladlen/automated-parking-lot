@@ -11,10 +11,10 @@
 namespace APL
 {
 	// Constructor for a Vehicle object
-	Vehicle::Vehicle(const std::string& _licensePlate, VehicleType _vehicleType, const Timestamp& _parkingTimestamp)
+	Vehicle::Vehicle(const std::string& _licensePlate, VehicleType _vehicleType, int _parkingDuration)
 		: m_licensePlate(_licensePlate)
 		, m_vehicleType(_vehicleType)
-		, m_parkingTimestamp(_parkingTimestamp)
+		, m_parkingDuration(_parkingDuration)
 	{
 	}
 
@@ -35,16 +35,9 @@ namespace APL
 		return m_vehicleType;
 	}
 
-	// Getter function for the parking timestamp
-	const Timestamp& Vehicle::getParkingTimestamp() const
+	// Getter function for the parking duration in hours
+	int Vehicle::getParkingDuration() const
 	{
-		return m_parkingTimestamp;
-	}
-
-	// Calculate the parking duration in hours
-	int Vehicle::calculateParkingDuration() const
-	{
-		auto now = std::chrono::system_clock::now();
-		return std::chrono::duration_cast<std::chrono::hours>(now - m_parkingTimestamp).count();
+		return m_parkingDuration;
 	}
 }

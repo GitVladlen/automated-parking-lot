@@ -2,15 +2,15 @@
 
 namespace APL
 {
-	Car::Car(const std::string& _licensePlate, const Timestamp& _parkingTimestamp)
-		: Vehicle(_licensePlate, VehicleType::Car, _parkingTimestamp)
+	Car::Car(const std::string& _licensePlate, int _parkingDuration)
+		: Vehicle(_licensePlate, VehicleType::Car, _parkingDuration)
 	{
 	}
 
 	// Calculate the parking charge for a Car based on the parking duration
 	float Car::calculateCharge() const
 	{
-		int parkingDuration = calculateParkingDuration();
+		int parkingDuration = getParkingDuration();
 
 		if (parkingDuration <= 1)
 		{

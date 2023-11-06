@@ -3,6 +3,8 @@
 #include <exception>
 #include <string>
 
+#include <APL/Vehicle.h>
+
 namespace APL
 {
 	// Base exception class that inherits from std::exception

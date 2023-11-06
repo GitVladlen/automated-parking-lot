@@ -16,7 +16,7 @@ namespace App
 
 	private:
 		// Create a vehicle of the specified type
-		APL::VehiclePtr createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, const APL::Timestamp& _parkingTimestamp);
+		APL::VehiclePtr createVehicle(APL::VehicleType _vehicleType, const std::string& _licensePlate, int _parkingDuration);
 
 	private:
 		APL::ParkingLot m_parkingLot; // The parking lot where vehicles are managed.

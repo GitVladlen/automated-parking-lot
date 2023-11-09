@@ -1,6 +1,12 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <thread>
+#include <mutex>
+#include <chrono>
+#include <sstream>
+#include <array>
+#include <random>
 
 #include <APL/Logger.h>
 #include <APL/Car.h>
@@ -19,9 +25,9 @@ namespace App
 		m_vehicleFactories[APL::VehicleType::Bus] = std::make_shared <APL::BusFactory>();
 
         // Set the initial capacity for different vehicle types
-        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 5);
-        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 2);
-        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 1);
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Car, 10);
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Motorcycle, 10);
+        m_parkingLot.setVehicleTypeCapacity(APL::VehicleType::Bus, 10);
 	}
 
 	int AutomatedParkingLotApp::run()
@@ -43,8 +49,9 @@ namespace App
             std::cout << "3. Check available slots for Bus\n";
             std::cout << "4. Park a Vehicle\n";
             std::cout << "5. Release a Vehicle\n";
-            std::cout << "6. Exit\n";
-            std::cout << "Enter your choice: ";
+            std::cout << "6. Run Parking Simulation\n";
+            std::cout << "7. Exit\n";
+            std::cout << "Enter your choice:\n";
 
             int choice;
             std::cin >> choice;
@@ -145,6 +152,15 @@ namespace App
                 break;
             }
             case 6: {
+                // Parking simulation with a specified number of vehicles
+                std::cout << "Enter vehicle count: ";
+                int vehicleCount;
+                std::cin >> vehicleCount;
+
+                runParkingSimulation(vehicleCount);
+                break;
+            }
+            case 7: {
                 // Exit the program
                 std::cout << "Exiting program.\n";
                 return 0;
@@ -173,4 +189,58 @@ namespace App
 
 		return vehicle;
 	}
+
+    void AutomatedParkingLotApp::runParkingSimulation(int _vehicleCount)
+    {
+        auto simulateVehicleParking = [&](APL::VehicleType vehicleType) {
+            // Set up random number generation for parking duration
+            std::random_device randomDevice;
+            std::mt19937 randomGenerator(randomDevice());
+            std::uniform_int_distribution<int> parkingDurationDistribution(1, 10);
+
+            // Generate a unique identifier for the thread
+            std::stringstream threadIdentifierStream;
+            threadIdentifierStream << std::this_thread::get_id();
+            std::string threadIdentifier = threadIdentifierStream.str();
+
+            // Attempt to park the vehicle with retries
+            int maxAttempts = 1000;
+            int attemptCounter = 0;
+            int delayBetweenAttemptsMs = 500;
+            int parkingTicket = -1;
+
+            while (parkingTicket == -1 && attemptCounter <= maxAttempts) {
+                attemptCounter++;
+
+                try {
+                    // Create a vehicle and attempt to park it
+                    auto vehicle = createVehicle(vehicleType, threadIdentifier, parkingDurationDistribution(randomGenerator));
+                    parkingTicket = m_parkingLot.parkVehicle(vehicle);
+                }
+                catch (const std::exception& e) {
+                    // Wait before the next attempt
+                    std::this_thread::sleep_for(std::chrono::milliseconds(delayBetweenAttemptsMs));
+                }
+            }
+
+            // If parking is successful, simulate parking duration and release the vehicle
+            if (parkingTicket != -1) {
+                int parkingDurationSeconds = parkingDurationDistribution(randomGenerator);
+                std::this_thread::sleep_for(std::chrono::seconds(parkingDurationSeconds));
+                m_parkingLot.releaseVehicle(parkingTicket);
+            }
+        };
+
+        // Set up random number generation for selecting vehicle type
+        std::random_device randomDevice;
+        std::mt19937 randomGenerator(randomDevice());
+        std::uniform_int_distribution<int> vehicleTypeDistribution(0, static_cast<int>(APL::VehicleType::Count) - 1);
+
+        // Spawn 100 threads to simulate vehicles attempting to park
+        for (int i = 0; i < _vehicleCount; ++i) {
+            APL::VehicleType selectedVehicleType = static_cast<APL::VehicleType>(vehicleTypeDistribution(randomGenerator));
+            std::thread parkingThread(simulateVehicleParking, selectedVehicleType);
+            parkingThread.detach();
+        }
+    }
 }

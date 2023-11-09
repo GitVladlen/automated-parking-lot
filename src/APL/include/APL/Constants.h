@@ -10,7 +10,9 @@ namespace APL
 	{
 		Car,
 		Motorcycle,
-		Bus
+		Bus,
+
+		Count
 	};
 
 	// Function to convert VehicleType to a string

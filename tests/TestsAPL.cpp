@@ -113,9 +113,9 @@ TEST(ParkingLotTest, ReleaseVehicle)
 	APL::VehiclePtr car2 = carFactory.createVehicle("CCC222", 2);
 	APL::VehiclePtr car3 = carFactory.createVehicle("CCC333", 3);
 
-	int ticket1 = parkingLot.parkVehicle(car1);
-	int ticket2 = parkingLot.parkVehicle(car2);
-	int ticket3 = parkingLot.parkVehicle(car3);
+	std::string ticket1 = parkingLot.parkVehicle(car1);
+	std::string ticket2 = parkingLot.parkVehicle(car2);
+	std::string ticket3 = parkingLot.parkVehicle(car3);
 
 	// Test for releasing parked cars
 	EXPECT_FLOAT_EQ(parkingLot.releaseVehicle(ticket1), 2.0f);
@@ -129,9 +129,9 @@ TEST(ParkingLotTest, ReleaseVehicle)
 	APL::VehiclePtr mc2 = motorcycleFactory.createVehicle("MMM222", 2);
 	APL::VehiclePtr mc3 = motorcycleFactory.createVehicle("MMM333", 3);
 
-	int ticket4 = parkingLot.parkVehicle(mc1);
-	int ticket5 = parkingLot.parkVehicle(mc2);
-	int ticket6 = parkingLot.parkVehicle(mc3);
+	std::string ticket4 = parkingLot.parkVehicle(mc1);
+	std::string ticket5 = parkingLot.parkVehicle(mc2);
+	std::string ticket6 = parkingLot.parkVehicle(mc3);
 
 	// Test for releasing parked motorcycles
 	EXPECT_FLOAT_EQ(parkingLot.releaseVehicle(ticket4), 1.0f);
@@ -145,9 +145,9 @@ TEST(ParkingLotTest, ReleaseVehicle)
 	APL::VehiclePtr bus2 = busFactory.createVehicle("BBB222", 2);
 	APL::VehiclePtr bus3 = busFactory.createVehicle("BBB333", 3);
 
-	int ticket7 = parkingLot.parkVehicle(bus1);
-	int ticket8 = parkingLot.parkVehicle(bus2);
-	int ticket9 = parkingLot.parkVehicle(bus3);
+	std::string ticket7 = parkingLot.parkVehicle(bus1);
+	std::string ticket8 = parkingLot.parkVehicle(bus2);
+	std::string ticket9 = parkingLot.parkVehicle(bus3);
 
 	// Test for releasing parked buses
 	EXPECT_FLOAT_EQ(parkingLot.releaseVehicle(ticket7), 5.0f);
@@ -155,7 +155,7 @@ TEST(ParkingLotTest, ReleaseVehicle)
 	EXPECT_FLOAT_EQ(parkingLot.releaseVehicle(ticket9), 11.0f);
 
 	// Test releasing a vehicle with an invalid ticket
-	EXPECT_THROW(parkingLot.releaseVehicle(999), APL::InvalidTicketIDException);
+	EXPECT_THROW(parkingLot.releaseVehicle("invalidticket"), APL::InvalidTicketIDException);
 }
 
 TEST(ParkingLotTest, CalculateCharge)
@@ -172,9 +172,9 @@ TEST(ParkingLotTest, CalculateCharge)
 	APL::VehiclePtr car2 = carFactory.createVehicle("CCC222", 2);
 	APL::VehiclePtr car3 = carFactory.createVehicle("CCC333", 3);
 
-	int ticket1 = parkingLot.parkVehicle(car1);
-	int ticket2 = parkingLot.parkVehicle(car2);
-	int ticket3 = parkingLot.parkVehicle(car3);
+	std::string ticket1 = parkingLot.parkVehicle(car1);
+	std::string ticket2 = parkingLot.parkVehicle(car2);
+	std::string ticket3 = parkingLot.parkVehicle(car3);
 
 	// Test calculating the charge for a parked cars
 	EXPECT_FLOAT_EQ(parkingLot.calculateCharge(ticket1), 2.0f);
@@ -188,9 +188,9 @@ TEST(ParkingLotTest, CalculateCharge)
 	APL::VehiclePtr mc2 = motorcycleFactory.createVehicle("MMM222", 2);
 	APL::VehiclePtr mc3 = motorcycleFactory.createVehicle("MMM333", 3);
 
-	int ticket4 = parkingLot.parkVehicle(mc1);
-	int ticket5 = parkingLot.parkVehicle(mc2);
-	int ticket6 = parkingLot.parkVehicle(mc3);
+	std::string ticket4 = parkingLot.parkVehicle(mc1);
+	std::string ticket5 = parkingLot.parkVehicle(mc2);
+	std::string ticket6 = parkingLot.parkVehicle(mc3);
 
 	// Test calculating the charge for a parked motorcycles
 	EXPECT_FLOAT_EQ(parkingLot.calculateCharge(ticket4), 1.0f);
@@ -204,9 +204,9 @@ TEST(ParkingLotTest, CalculateCharge)
 	APL::VehiclePtr bus2 = busFactory.createVehicle("BBB222", 2);
 	APL::VehiclePtr bus3 = busFactory.createVehicle("BBB333", 3);
 
-	int ticket7 = parkingLot.parkVehicle(bus1);
-	int ticket8 = parkingLot.parkVehicle(bus2);
-	int ticket9 = parkingLot.parkVehicle(bus3);
+	std::string ticket7 = parkingLot.parkVehicle(bus1);
+	std::string ticket8 = parkingLot.parkVehicle(bus2);
+	std::string ticket9 = parkingLot.parkVehicle(bus3);
 
 	// Test calculating the charge for a parked buses
 	EXPECT_FLOAT_EQ(parkingLot.calculateCharge(ticket7), 5.0f);
@@ -214,5 +214,5 @@ TEST(ParkingLotTest, CalculateCharge)
 	EXPECT_FLOAT_EQ(parkingLot.calculateCharge(ticket9), 11.0f);
 
 	// Test calculating the charge for an invalid ticket
-	EXPECT_THROW(parkingLot.calculateCharge(999), APL::InvalidTicketIDException);
+	EXPECT_THROW(parkingLot.calculateCharge("invalidticket"), APL::InvalidTicketIDException);
 }

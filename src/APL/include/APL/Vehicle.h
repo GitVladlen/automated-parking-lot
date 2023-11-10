@@ -21,8 +21,13 @@ namespace APL
 		VehicleType getVehicleType() const;
 		int getParkingDuration() const;
 
-		// Pure virtual function to calculate the charge (to be implemented by derived classes)
-		virtual float calculateCharge() const = 0;
+		// General algorithm for calculating the charge
+		float calculateCharge() const;
+
+	protected:
+		// Helper methods to be overridden by subclasses if needed
+		virtual float getBaseCharge() const = 0;
+		virtual float getAdditionalChargePerHour() const = 0;
 
 	private:
 		std::string m_licensePlate;

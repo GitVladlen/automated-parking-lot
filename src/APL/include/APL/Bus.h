@@ -10,8 +10,9 @@ namespace APL
 		// Constructor for Bus, taking license plate and parking duration in hours
 		Bus(const std::string& _licensePlate, int _parkingDuration);
 
-		// Calculate the parking charge for a Bus
-		virtual float calculateCharge() const override;
+	protected:
+		virtual float getBaseCharge() const override;
+		virtual float getAdditionalChargePerHour() const override;
 	};
 
 	class BusFactory : public VehicleFactory

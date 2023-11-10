@@ -1,7 +1,7 @@
 #pragma once
 
-#include <map>
 #include <string>
+#include <array>
 
 namespace APL
 {
@@ -10,27 +10,20 @@ namespace APL
 	{
 		Car,
 		Motorcycle,
-		Bus
+		Bus,
+
+		Count
 	};
 
 	// Function to convert VehicleType to a string
-	inline std::string vehicleTypeToString(VehicleType vehicleType)
+	inline std::string vehicleTypeToString(VehicleType _vehicleType)
 	{
-		// Map to associate VehicleType enum values with string representations
-		static const std::map<VehicleType, std::string> vehicleTypeMap = {
-			{VehicleType::Car, "Car"},
-			{VehicleType::Motorcycle, "Motorcycle"},
-			{VehicleType::Bus, "Bus"}
+		// Static array that holds string representations of each VehicleType
+		static const std::array<std::string, static_cast<int>(VehicleType::Count)> vehicleTypeStr = {
+			"Car", "Motorcycle", "Bus"
 		};
 
-		// Find the string representation for the given VehicleType
-		auto it = vehicleTypeMap.find(vehicleType);
-		if (it != vehicleTypeMap.end())
-		{
-			return it->second;
-		}
-
-		// Return "Unknown" if the VehicleType is not found in the map
-		return "Unknown";
+		// Return the string representation based on the index corresponding to the VehicleType
+		return vehicleTypeStr[static_cast<int>(_vehicleType)];
 	}
 }

@@ -84,14 +84,7 @@ namespace Logs
 		va_end(result_args);
 		va_end(length_args);
 
-		const std::string formattedMessage = "[" + getTimeStamp() + "] [" + LevelStr[_level] + "]: " + result + "\n";
-
-		m_sink.write(formattedMessage);
-
-		if (m_logToConsole)
-		{
-			std::cout << formattedMessage;
-		}
+		log(_level, result);
 	}
 
 	// Generate a timestamp for log entries

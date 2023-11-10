@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include <APL/Vehicle.h>
+#include <APL/IUniqueIDGenerator.h>
 
 namespace APL
 {
@@ -12,6 +13,10 @@ namespace APL
 	{
 	public:
 		ParkingLot();
+		ParkingLot(const IUniqueIDGeneratorPtr& _ticketGenerator);
+		
+		// Set the ticket generator
+		void setTicketGenerator(const IUniqueIDGeneratorPtr& _ticketGenerator);
 
 		// Set the capacity for a specific vehicle type
 		void setVehicleTypeCapacity(VehicleType _vehicleType, int _capacity);
@@ -20,21 +25,20 @@ namespace APL
 		int getAvailableSlots(VehicleType _vehicleType) const;
 
 		// Park a vehicle and generate a ticket
-		int parkVehicle(const VehiclePtr& _vehicle);
+		std::string parkVehicle(const VehiclePtr& _vehicle);
 
 		// Release a parked vehicle and calculate the charge
-		float releaseVehicle(int _ticketId);
+		float releaseVehicle(const std::string& _ticket);
 
 		// Calculate the charge for a parked vehicle based on the ticket ID
-		float calculateCharge(int _ticketId);
+		float calculateCharge(const std::string& _ticket);
 
 	private:
-		std::vector<VehiclePtr> m_parkedVehicles;
 		std::unordered_map<VehicleType, int> m_vehicleCapacity;
-		std::unordered_map<int, VehiclePtr> m_ticketToVehicle;
+		std::unordered_map<std::string, VehiclePtr> m_ticketToVehicle;
+		IUniqueIDGeneratorPtr m_ticketGenerator;
 
-		mutable std::mutex vehicleAccessMutex;
-		mutable std::mutex capacityAccessMutex;
-		mutable std::mutex ticketAccessMutex;
+		mutable std::mutex m_capacityAccessMutex;
+		mutable std::mutex m_ticketAccessMutex;
 	};
 }

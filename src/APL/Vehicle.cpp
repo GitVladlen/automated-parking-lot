@@ -40,4 +40,10 @@ namespace APL
 	{
 		return m_parkingDuration;
 	}
+	
+	// General algorithm for calculating the charge
+	float Vehicle::calculateCharge() const
+	{
+		return getBaseCharge() + (getParkingDuration() - 1) * getAdditionalChargePerHour();
+	}
 }

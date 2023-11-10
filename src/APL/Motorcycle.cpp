@@ -7,18 +7,13 @@ namespace APL
 	{
 	}
 
-	// Calculate the parking charge for a Motorcycle based on the parking duration
-	float Motorcycle::calculateCharge() const
+	float Motorcycle::getBaseCharge() const
 	{
-		int parkingDuration = getParkingDuration();
+		return 1.0f;
+	}
 
-		if (parkingDuration <= 1)
-		{
-			return 1.0f;
-		}
-		else
-		{
-			return 1.0f + (parkingDuration - 1) * 0.5f;
-		}
+	float Motorcycle::getAdditionalChargePerHour() const
+	{
+		return 0.5f;
 	}
 }

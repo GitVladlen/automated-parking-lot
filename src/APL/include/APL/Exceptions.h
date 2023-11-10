@@ -65,8 +65,8 @@ namespace APL
 	{
 	public:
 		// Constructor that generates a message based on an invalid ticket ID
-		InvalidTicketIDException(int _ticket)
-			: BaseMessageException("Invalid ticket ID: " + std::to_string(_ticket))
+		InvalidTicketIDException(const std::string& _ticket)
+			: BaseMessageException("Invalid ticket ID: " + _ticket)
 		{
 		}
 	};

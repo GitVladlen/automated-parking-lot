@@ -7,18 +7,13 @@ namespace APL
 	{
 	}
 
-	// Calculate the parking charge for a Car based on the parking duration
-	float Car::calculateCharge() const
+	float Car::getBaseCharge() const
 	{
-		int parkingDuration = getParkingDuration();
+		return 2.0f;
+	}
 
-		if (parkingDuration <= 1)
-		{
-			return 2.0f;
-		}
-		else
-		{
-			return 2.0f + (parkingDuration - 1) * 1.0f;
-		}
+	float Car::getAdditionalChargePerHour() const
+	{
+		return 1.0f;
 	}
 }

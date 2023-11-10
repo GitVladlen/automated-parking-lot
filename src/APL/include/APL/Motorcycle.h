@@ -10,8 +10,9 @@ namespace APL
 		// Constructor for Motorcycle, taking license plate and parking duration in hours
 		Motorcycle(const std::string& _licensePlate, int _parkingDuration);
 
-		// Calculate the parking charge for a Motorcycle
-		virtual float calculateCharge() const override;
+	protected:
+		virtual float getBaseCharge() const override;
+		virtual float getAdditionalChargePerHour() const override;
 	};
 
 	class MotorcycleFactory : public VehicleFactory

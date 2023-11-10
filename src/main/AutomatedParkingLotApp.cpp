@@ -6,12 +6,14 @@
 #include <APL/Car.h>
 #include <APL/Motorcycle.h>
 #include <APL/Bus.h>
+#include <APL/UUIDGenerator.h>
 
 #include "AutomatedParkingLotApp.h"
 
 namespace App
 {
 	AutomatedParkingLotApp::AutomatedParkingLotApp()
+        : m_parkingLot()
 	{
         // Set vehicle factories by its type
 		m_vehicleFactories[APL::VehicleType::Car] = std::make_shared<APL::CarFactory>();
@@ -122,8 +124,8 @@ namespace App
 
                 try {
                     APL::VehiclePtr newVehicle = createVehicle(vehicleType, licensePlate, parkingDuration);
-                    int ticketID = m_parkingLot.parkVehicle(newVehicle);
-                    LOG_INFO_FMT("Vehicle parked with ticket ID: %i", ticketID);
+                    std::string ticket = m_parkingLot.parkVehicle(newVehicle);
+                    LOG_INFO_FMT("Vehicle parked with ticket: %s", ticket.c_str());
                 }
                 catch (const std::exception& e) {
                     LOG_ERROR_FMT("Error: %s", e.what());
@@ -132,8 +134,8 @@ namespace App
             }
             case 5: {
                 // Release a vehicle
-                std::cout << "Enter ticket ID for the vehicle to release: ";
-                int ticketToRelease;
+                std::cout << "Enter ticket for the vehicle to release: ";
+                std::string ticketToRelease;
                 std::cin >> ticketToRelease;
                 try {
                     float charge = m_parkingLot.releaseVehicle(ticketToRelease);

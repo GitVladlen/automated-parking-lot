@@ -10,8 +10,9 @@ namespace APL
 		// Constructor for Car, taking license plate and parking duration in hours
 		Car(const std::string& _licensePlate, int _parkingDuration);
 
-		// Calculate the parking charge for a Car
-		virtual float calculateCharge() const override;
+	protected:
+		virtual float getBaseCharge() const override;
+		virtual float getAdditionalChargePerHour() const override;
 	};
 
 	class CarFactory : public VehicleFactory
